@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity // 도메인 엔티티임을 명시하고 이를 바탕으로 DB와 매핑됨 테이블이름과 클래스이름이 같이매핑
-public class Posts {
+public class Posts extends BaseTimeEntity{
     @Id // PrimaryKey임을 지정함
     @GeneratedValue(strategy = GenerationType.IDENTITY)// 생성전략을 지정하고. DB쪽에서 오토인크리스임을 명시
     private long id;
