@@ -9,4 +9,9 @@ public class IndexController {
     public String index() {
         return "index"; // 머스타치가 앞뒤 경로와 확장자를 모두 자동제공한다.
     }
+
+    @GetMapping("/posts/save")
+    public String postsSave() {
+        return "posts-save";
+    }
 }
