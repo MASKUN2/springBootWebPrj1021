@@ -3,7 +3,7 @@ package com.maskun.springboot.web;
 import com.maskun.springboot.service.posts.PostsService;
 import com.maskun.springboot.web.dto.PostsSaveRequestDto;
 import com.maskun.springboot.web.dto.PostsUpdateRequestDto;
-import com.maskun.springboot.web.dto.postsResponseDto;
+import com.maskun.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +33,14 @@ public class PostsApiController {
     }
     //조회 겟 요청
     @GetMapping("/api/v1/posts/{id}")
-    public postsResponseDto findById (@PathVariable Long id) {
+    public PostsResponseDto findById (@PathVariable Long id) {
         return postsService.findById(id);
+    }
+
+    //삭제 api
+    @DeleteMapping("/api/v1/posts/{id}")
+    public Long delete(@PathVariable Long id){
+        postsService.delete(id);
+        return id;
     }
 }

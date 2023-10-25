@@ -3,7 +3,14 @@ var main={ //이렇게 메인 변수로 함수를 묶어둠으로써 중복 js�
         var _this = this;
         $('#btn-save').on('click',function (){ // 제이쿼리로 잡은 객체에 클릭이 발생하면 펑션을 실행하겠다는 의미
             _this.save();
+        });
 
+        $('#btn-update').on('click', function (){
+            _this.update();
+        });
+
+        $('#btn-delete').on('click',function (){
+            _this.delete();
         });
     },
 
@@ -26,6 +33,44 @@ var main={ //이렇게 메인 변수로 함수를 묶어둠으로써 중복 js�
         }).fail(function (error){
             alert(JSON.stringify(error));
         });
+    },
+
+    update : function () {
+        var data = {
+            title: $('#title').val(),
+            content: $('#content').val()
+        };
+
+        var id = $('#id').val();
+
+        $.ajax({
+            type: 'PUT',
+            url: '/api/v1/posts/'+id,
+            dataType: 'json',
+            contentType:'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function() {
+            alert('글이 수정되었습니다.');
+            window.location.href = '/';
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    },
+    delete : function () {
+
+            var id = $('#id').val();
+
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/v1/posts/'+id,
+                dataType: 'json',
+                contentType:'application/json; charset=utf-8'
+            }).done(function() {
+                alert('글이 삭제되었습니다.');
+                window.location.href = '/';
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
     }
 };
 main.init();

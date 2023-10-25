@@ -2,13 +2,16 @@ package com.maskun.springboot.service.posts;
 
 import com.maskun.springboot.domain.posts.Posts;
 import com.maskun.springboot.domain.posts.PostsRepository;
+import com.maskun.springboot.web.dto.PostsListResponseDto;
 import com.maskun.springboot.web.dto.PostsSaveRequestDto;
 import com.maskun.springboot.web.dto.PostsUpdateRequestDto;
-import com.maskun.springboot.web.dto.postsResponseDto;
+import com.maskun.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -33,9 +36,21 @@ public class PostsService {
         return id;
     }
 
-    public postsResponseDto findById(Long id) {
+    public PostsResponseDto findById(Long id) {
         Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. id=" + id));
         //web 레이어로 보내줘야하기 때문에 도메인 자체가 아닌 dto로 보낸다.
-        return new postsResponseDto(entity);
+        return new PostsResponseDto(entity);
+    }
+
+    @Transactional(readOnly = true) // @Transactional(readOnly = true) 트랙젝션 범위는 유지시키되 조회를 위해 성능을 올리는 옵션
+    public List<PostsListResponseDto> findAllDesc(){
+        //먼저 Posts 엔티티를 가져와서 스트림으로 만들고 map 안에서 각각의 entity를 인자로 가지고 new postsResponseDto(entity)실행해서 스트림에 담는다. . collect()괄호 안에는 스트림을 처리할 Collector 인터페이스를 구현하는 객체를 사용할 수 있고 여기서는 리스트 타입으로 받은 것!
+        return postsRepository.findAllDesc().stream().map(PostsListResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete(Long id){
+        Posts posts = postsRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("해당게시글이 없습니다"));
+        postsRepository.delete(posts); // 리파지토리는 조회 후 삭제한다.
     }
 }
