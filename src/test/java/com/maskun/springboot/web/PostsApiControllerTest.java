@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat; //굳이 스테틱을 사용하는 이유는 테스트 메소드가 바뀔 때마다 assertThat 객체를 새로 생성하지 않고 코드량을 줄이기 위해서다.
 
@@ -95,4 +96,26 @@ public class PostsApiControllerTest {
         assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
     }
+
+    @Test
+    public void posts_삭제된다(){
+        //given     : 우선 하나의 Post를 추가한 후 받은 아이디로 옵셔널 타입으로 받아 실제로 있는지 확인한다.
+        Posts savedPost = postsRepository.save(Posts.builder().title("title").content("content").author("author").build());
+        Long deleteId = savedPost.getId();
+
+        Optional<Posts> post = postsRepository.findById(deleteId);
+        assertThat(post.isPresent()).isTrue();
+
+        String url = "http://localhost:"+port+"/api/v1/posts/"+deleteId;
+
+        //when      : id를 패스베리어블로 사용하는 API에 딜리트 요청을 보내고
+        restTemplate.delete(url);
+
+        //then      : 해당 객체가 지워졌으면 통과
+        post = postsRepository.findById(deleteId);
+
+        assertThat(post.isPresent()).isFalse();
+
+    }
+
 }
