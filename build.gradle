@@ -18,7 +18,7 @@ apply plugin: 'io.spring.dependency-management'
 
 group 'com.maskun'
 version '1.0.0-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -31,7 +31,7 @@ dependencies { // 버전을 쓰지 말자. 위쪽에 스프링부트버젼에 �
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('com.h2database:h2')
     compile('org.springframework.boot:spring-boot-starter-mustache')
-    compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+    compile('org.springframework.boot:spring-boot-starter-security')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
