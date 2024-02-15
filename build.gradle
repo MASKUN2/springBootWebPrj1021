@@ -29,7 +29,7 @@ dependencies { // 버전을 쓰지 말자. 위쪽에 스프링부트버젼에 �
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.projectlombok:lombok') // 롬복의 플러그인을 인텔리제이에 설치할 것
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('com.h2database:h2')
+    compile('org.mariadb.jdbc:mariadb-java-client')
     compile('org.springframework.boot:spring-boot-starter-mustache')
     compile('org.springframework.boot:spring-boot-starter-security')
     testCompile('org.springframework.boot:spring-boot-starter-test')
