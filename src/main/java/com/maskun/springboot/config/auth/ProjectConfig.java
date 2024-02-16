@@ -27,12 +27,12 @@ public class ProjectConfig {
     }
 
     @Bean
-    public PasswordEncoder bCryptpasswordEncoder(){
+    public PasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public PasswordEncoder sCryptpasswordEncoder(){
+    public PasswordEncoder sCryptPasswordEncoder(){
         return new SCryptPasswordEncoder();
     }
 }
